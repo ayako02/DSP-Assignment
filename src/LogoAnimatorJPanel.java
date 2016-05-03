@@ -14,7 +14,7 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
   protected ImageIcon images[], images2[];    //array of images
   private int curImgBlue = 0;    //current image index
   private int curImgSil = 0;
-  private final int ANIMATION_DELAY = 10;  //millisecond delay
+  private final int ANIMATION_DELAY = 0;  //millisecond delay
   private int width, height;        //image width & height
   private Timer animationTimer;     //Timer drives animation
   
@@ -154,6 +154,11 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 			y = 100;	
 		}
 		
+		if (y> 550) {
+			yVel = 0;
+			y = 550;
+		}
+		
 		//grass - bottom track
 		if(x > 100 && x < 700) {
 			if(y > 450 && y < 700) {
@@ -175,6 +180,24 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 		}
 	
 		//grass - right track
+		if (y > 150 && y < 500) {
+			if (x > 650 && x < 750) {
+				if (x < 700) {
+					x = 700;
+					xVel = 0;
+				}
+			}
+		}
+		
+		//grass - left track
+		if(y > 150 && y < 500) {
+			if(x > 50 && x < 110) {
+				if(x >= 100) {
+					xVel = 0;
+					x = 99;
+				}
+			}
+		}	
 		
 		x = x + xVel;
 		y = y + yVel;
