@@ -11,12 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class LogoAnimatorJPanel extends JPanel implements KeyListener{
-  protected ImageIcon images[], images2[];    //array of images
-  private int curImgBlue = 0;    //current image index
-  private int curImgSil = 0;
-  private final int ANIMATION_DELAY = 10;  //millisecond delay
-  private int width, height;        //image width & height
-  private Timer animationTimer;     //Timer drives animation
+  protected ImageIcon images[], images2[];   //array of images
+  private int curImgBlue = 0, curImgSil = 0; //current image index
+  private final int ANIMATION_DELAY = 10;  	//millisecond delay
+  private int width, height;        		//image width & height
+  private Timer animationTimer;     		//Timer drives animation
   
 //variable used in for loop function for car movement counting
   private int x=425, y=500, xVel = 0, yVel = 0;					
@@ -288,18 +287,17 @@ public void keyPressed(KeyEvent e) {
     if (z == KeyEvent.VK_LEFT) {
         xVel = -1;
         yVel = 0;
-        
         if(curImgBlue > 0)
         	curImgBlue -= 1;
         if(curImgBlue == 0)
         	curImgBlue = 15;
-        carDirection(curImgBlue);
+        carDirB(curImgBlue);
     }
     
     if (z == KeyEvent.VK_UP) {
         xVel= 0;
         yVel = -1;
-        carDirection(curImgBlue);
+        carDirB(curImgBlue);
         acceleration();
     }
     if (z == KeyEvent.VK_RIGHT) {
@@ -309,31 +307,44 @@ public void keyPressed(KeyEvent e) {
         	curImgBlue += 1;
         if(curImgBlue == 16) 
         	curImgBlue = 0;
-        carDirection(curImgBlue);
+        carDirB(curImgBlue);
     }
     if (z == KeyEvent.VK_DOWN) {
         xVel = 0;
         yVel = 1;
-        carDirection(curImgBlue);
+        carDirB(curImgBlue);
         deceleration();
     }
 
-    // Blue box
+    // Silver Car
     if (z == KeyEvent.VK_A) {
         x1Vel = -1;
         y1Vel = 0;
+        if(curImgSil > 0)
+        	curImgSil -= 1;
+        if(curImgSil == 0)
+        	curImgSil = 15;
+        carDirS(curImgSil);
     }
     if (z == KeyEvent.VK_W) {
         x1Vel = 0;
         y1Vel = -1;
+        carDirS(curImgSil);
+        acceleration();
     }
     if (z == KeyEvent.VK_D) {
         x1Vel = 1;
-        y1Vel = 0;
+        if(curImgSil < 16)
+        	curImgSil += 1;
+        if(curImgSil == 16) 
+        	curImgSil = 0;
+        carDirS(curImgSil);
     }
     if (z == KeyEvent.VK_S) {
         x1Vel = 0;
         y1Vel = 1;
+        carDirS(curImgSil);
+        deceleration();
     }
 }
 
@@ -346,7 +357,8 @@ public void keyReleased(KeyEvent e) {
 	y1Vel = 0;
 }
 
-public void carDirection(int carD) {
+//car direction of light blue car
+public void carDirB(int carD) {
     switch (carD) {
         case 0:
             xVel = 0;
@@ -415,6 +427,75 @@ public void carDirection(int carD) {
     }
 }
 
+//car direction for silver car
+public void carDirS(int carD) {
+    switch (carD) {
+        case 0:
+            x1Vel = 0;
+            y1Vel = -10;
+            break;
+        case 1:
+        	x1Vel = 3;
+        	y1Vel = -7;
+            break;
+        case 2:
+        	x1Vel = 5;
+        	y1Vel = -5;
+            break;
+        case 3:
+        	x1Vel = 7;
+        	y1Vel = -3;
+            break;
+        case 4:
+        	x1Vel = 10;
+        	y1Vel = 0;
+            break;
+        case 5:
+        	x1Vel = 7;
+        	y1Vel = 3;
+            break;
+        case 6:
+        	x1Vel = 5;
+        	y1Vel = 5;
+            break;
+        case 7:
+        	x1Vel = 3;
+        	y1Vel = 7;
+            break;
+        case 8:
+        	x1Vel = 0;
+        	y1Vel = 10;
+            break;
+        case 9:
+        	x1Vel = -3;
+        	y1Vel = 7;
+            break;
+        case 10:
+        	x1Vel = -5;
+        	y1Vel = 5;
+            break;
+        case 11:
+        	x1Vel = -7;
+        	y1Vel = 3;
+            break;
+        case 12:
+        	x1Vel = -10;
+        	y1Vel = 0;
+            break;
+        case 13:
+        	x1Vel = -7;
+        	y1Vel = -3;
+            break;
+        case 14:
+        	x1Vel = -5;
+        	y1Vel = -5;
+            break;
+        case 15:
+        	x1Vel = -3;
+            y1Vel = -7;
+            break;
+    }
+}
 	public void acceleration() {
 		xVel += xVel;
 	}
