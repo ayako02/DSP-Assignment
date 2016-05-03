@@ -206,36 +206,80 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 		x = x + xVel;
 		y = y + yVel;
 	
-	//car 2
-	if(x1 < 50) {
-		x1Vel = 0;
-		x1 = 50;	
-	}
-	
-	if(x1 > 750) {
-		x1Vel = 0;
-		x1 = 750;	
-	}
-	
-	if(y1 < 100) {
-		y1Vel = 0;
-		y1 = 100;
-	}
-	
-	if(y1 > 550) {
-		y1Vel = 0;
-		y1 = 550;
+		//car 2
+		if(x1 < 50) {
+			x1Vel = 0;
+			x1 = 50;	
+		}
+		
+		if(x1 > 750) {
+			x1Vel = 0;
+			x1 = 750;	
+		}
+		
+		if(y1 < 100) {
+			y1Vel = 0;
+			y1 = 100;
+		}
+		
+		if(y1 > 550) {
+			y1Vel = 0;
+			y1 = 550;
+	    }
+		
+		//grass - bottom track
+		if(x1 < 700 && x1 > 100) {
+			if(y1 > 400 && y1 < 700) {
+				if(y1 < 500) {
+					y1Vel = 0;
+					x1Vel = 0;
+					y1 = 500;
+				}
+			}
+		}
+		
+		//grass - upper track
+		if(x1 < 700 && x1 > 100) {
+			if(y1 > 100 && y1 < 200) {
+				if(y1 > 150) {
+					y1Vel = 0;
+					x1Vel = 0;
+					y1 = 150;
+				}
+			}
+		}
+		
+		//grass - right track
+		if(y1 > 150 && y1 < 500) {
+			if(x1 > 650 && x1 < 750) { 
+				if(x1 < 702) {
+					x1Vel = 0;
+					y1Vel = 0;
+					x1 = 702;
+				}
+			}
+		}
+		
+		//grass - left track
+		if(y1 > 150 && y1 < 500) {
+			if(x1> 50 && x1 < 110) {
+				if(x1 >= 100) {
+					x1Vel = 0;
+					y1Vel = 0;
+					x1 = 99;
+				}
+			}
+		}
+		
+		x1 = x1 + x1Vel;
+		y1 = y1 + y1Vel;
+		repaint();
     }
-	
-	x1 = x1 + x1Vel;
-	y1 = y1 + y1Vel;
-	repaint();
-  }
   }
 
 @Override
 public void keyPressed(KeyEvent e) {
-	System.out.println("X: "+ x + " Y: " + y);
+	System.out.println("X1: "+ x1 + " Y1: " + y1);
 	System.out.println("Img: " + curImgBlue);
 
 	int z = e.getKeyCode();
