@@ -219,6 +219,11 @@ public void keyPressed(KeyEvent e) {
     if (z == KeyEvent.VK_LEFT) {
         xVel = -1;
         yVel = 0;
+        
+        if(curImgBlue > 0)
+        	curImgBlue -= 1;
+        if(curImgBlue == 0)
+        	curImgBlue = 15;
     }
     if (z == KeyEvent.VK_UP) {
         xVel= 0;
