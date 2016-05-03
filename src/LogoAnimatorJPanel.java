@@ -14,7 +14,7 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
   protected ImageIcon images[], images2[];    //array of images
   private int curImgBlue = 0;    //current image index
   private int curImgSil = 0;
-  private final int ANIMATION_DELAY = 0;  //millisecond delay
+  private final int ANIMATION_DELAY = 10;  //millisecond delay
   private int width, height;        //image width & height
   private Timer animationTimer;     //Timer drives animation
   
@@ -164,6 +164,7 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 			if(y > 450 && y < 700) {
 				if (y < 500) {
 					yVel = 0;
+					xVel = 0;
 					y = 500;		
 				}
 			}
@@ -174,6 +175,7 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 			if(y > 100 && y < 200) {
 				if(y > 150) {
 					yVel = 0;
+					xVel = 0;
 					y = 150;
 				}
 			}
@@ -185,6 +187,7 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 				if (x < 700) {
 					x = 700;
 					xVel = 0;
+					yVel = 0;
 				}
 			}
 		}
@@ -194,6 +197,7 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 			if(x > 50 && x < 110) {
 				if(x >= 100) {
 					xVel = 0;
+					yVel = 0;
 					x = 99;
 				}
 			}
@@ -231,8 +235,6 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 
 @Override
 public void keyPressed(KeyEvent e) {
-	// TODO Auto-generated method stub
-//	System.out.println(e.getKeyCode());
 	System.out.println("X: "+ x + " Y: " + y);
 	System.out.println("Img: " + curImgBlue);
 
@@ -247,10 +249,14 @@ public void keyPressed(KeyEvent e) {
         	curImgBlue -= 1;
         if(curImgBlue == 0)
         	curImgBlue = 15;
+        carDirection(curImgBlue);
     }
+    
     if (z == KeyEvent.VK_UP) {
         xVel= 0;
         yVel = -1;
+        carDirection(curImgBlue);
+        acceleration();
     }
     if (z == KeyEvent.VK_RIGHT) {
         xVel = 1;
@@ -259,10 +265,13 @@ public void keyPressed(KeyEvent e) {
         	curImgBlue += 1;
         if(curImgBlue == 16) 
         	curImgBlue = 0;
+        carDirection(curImgBlue);
     }
     if (z == KeyEvent.VK_DOWN) {
         xVel = 0;
         yVel = 1;
+        carDirection(curImgBlue);
+        deceleration();
     }
 
     // Blue box
@@ -286,18 +295,94 @@ public void keyPressed(KeyEvent e) {
 
 @Override
 public void keyReleased(KeyEvent e) {
-	// TODO Auto-generated method stub
 	xVel = 0;
 	yVel = 0;
 	
 	x1Vel = 0;
 	y1Vel = 0;
-	
 }
 
-@Override
-public void keyTyped(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
+public void carDirection(int carD) {
+    switch (carD) {
+        case 0:
+            xVel = 0;
+            yVel = -10;
+            break;
+        case 1:
+        	xVel = 3;
+        	yVel = -7;
+            break;
+        case 2:
+        	xVel = 5;
+        	yVel = -5;
+            break;
+        case 3:
+        	xVel = 7;
+        	yVel = -3;
+            break;
+        case 4:
+        	xVel = 10;
+        	yVel = 0;
+            break;
+        case 5:
+        	xVel = 7;
+        	yVel = 3;
+            break;
+        case 6:
+        	xVel = 5;
+        	yVel = 5;
+            break;
+        case 7:
+        	xVel = 3;
+        	yVel = 7;
+            break;
+        case 8:
+        	xVel = 0;
+        	yVel = 10;
+            break;
+        case 9:
+        	xVel = -3;
+        	yVel = 7;
+            break;
+        case 10:
+        	xVel = -5;
+        	yVel = 5;
+            break;
+        case 11:
+        	xVel = -7;
+        	yVel = 3;
+            break;
+        case 12:
+        	xVel = -10;
+        	yVel = 0;
+            break;
+        case 13:
+        	xVel = -7;
+        	yVel = -3;
+            break;
+        case 14:
+        	xVel = -5;
+        	yVel = -5;
+            break;
+        case 15:
+        	xVel = -3;
+            yVel = -7;
+            break;
+    }
 }
+
+	public void acceleration() {
+		xVel += xVel;
+	}
+	
+	public void deceleration() {
+		yVel -= yVel;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }// end public class
