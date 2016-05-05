@@ -1,11 +1,13 @@
 import javax.swing.JFrame;
+
 import java.awt.event.KeyListener;
 import java.awt.Container;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class LogoAnimator
 {
-	public static void main(String args[])
+	public static void main(String args[]) throws Exception
 	{
 		LogoAnimatorJPanel animation = new LogoAnimatorJPanel();
 		
@@ -19,7 +21,7 @@ public class LogoAnimator
 		
 		 Container contentPane = window.getContentPane();
 
-		 
+		 animation.connect2server();
 		
 	}
 }

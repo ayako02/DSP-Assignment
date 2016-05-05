@@ -5,14 +5,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Graphics;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class LogoAnimatorJPanel extends JPanel implements KeyListener{
   protected ImageIcon images[], images2[];   //array of images
-  private int curImgBlue = 0, curImgSil = 0; //current image index
+  private int curImgGreen = 0, curImgYel = 0; //current image index
   private final int ANIMATION_DELAY = 10;  	//millisecond delay
   private int width, height;        		//image width & height
   private Timer animationTimer;     		//Timer drives animation
@@ -20,6 +27,10 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 //variable used in for loop function for car movement counting
   private int x=425, y=500, xVel = 0, yVel = 0;					
   private int x1=425, y1=550, x1Vel = 0, y1Vel = 0;
+ 
+  public JFrame f = new JFrame("Car Game Client");	 //Server choosing
+  private BufferedReader in;	//server communication
+  private PrintWriter out;
   
   public LogoAnimatorJPanel ()
   {
@@ -29,17 +40,17 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
       images = new ImageIcon[16];
       images2 = new ImageIcon[16];
       
-      //load the Light Blue car
+      //load the Green car
       for (int c = 0; c < images.length; c++)
       {
-        images[c] = new ImageIcon("LBlueCar/"+  (c+1) +".jpg" ); 
+        images[c] = new ImageIcon("GreenCar/"+  (c+1) +".png" ); 
 
       }  //end for
       
-      //load the silver car
+      //load the yellow car
       for (int a = 0; a < images.length; a++)
       {
-        images2[a] = new ImageIcon("SilverCar/"+  (a+1) +".jpg" ); 
+        images2[a] = new ImageIcon("YellowCar/"+  (a+1) +".png" ); 
 
       }  //end for
       
@@ -60,14 +71,14 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
   public void paintComponent(Graphics g)
   {
     super.paintComponent(g);  //call superclass paintComponent
-    images[curImgBlue].paintIcon(this, g, x, y);
-    images2[curImgSil].paintIcon(this, g, x1, y1);
+    images[curImgGreen].paintIcon(this, g, x, y);
+    images2[curImgYel].paintIcon(this, g, x1, y1);
     
     //set next image to be drawn only if Timer is running
 //    if(animationTimer.isRunning())
 //    {
-//    	curImgBlue= (curImgBlue + 1) % images.length;
-//    	curImgSil= (curImgSil + 1) % images.length;
+//    	curImgGreen= (curImgGreen + 1) % images.length;
+//    	curImgYel= (curImgYel + 1) % images.length;
 //    }
     //grass
     Color c1 = Color.green;
@@ -97,8 +108,8 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
   {
     if (animationTimer == null)
     {
-    	curImgBlue = 12;    //display first image
-    	curImgSil = 12;
+    	curImgGreen = 12;    //display first image
+    	curImgYel = 12;
       
       //create timer
       animationTimer = new Timer(ANIMATION_DELAY, new TimerHandler());
@@ -279,71 +290,71 @@ public class LogoAnimatorJPanel extends JPanel implements KeyListener{
 @Override
 public void keyPressed(KeyEvent e) {
 	System.out.println("X1: "+ x1 + " Y1: " + y1);
-	System.out.println("Img: " + curImgBlue);
+	System.out.println("Img: " + curImgGreen);
 
 	int z = e.getKeyCode();
 
-    // Light Blue car
+    // Green car
     if (z == KeyEvent.VK_LEFT) {
         xVel = -1;
         yVel = 0;
-        if(curImgBlue > 0)
-        	curImgBlue -= 1;
-        if(curImgBlue == 0)
-        	curImgBlue = 15;
-        carDirB(curImgBlue);
+        if(curImgGreen > 0)
+        	curImgGreen -= 1;
+        if(curImgGreen == 0)
+        	curImgGreen = 15;
+        carDirB(curImgGreen);
     }
     
     if (z == KeyEvent.VK_UP) {
         xVel= 0;
         yVel = -1;
-        carDirB(curImgBlue);
+        carDirB(curImgGreen);
         acceleration();
     }
     if (z == KeyEvent.VK_RIGHT) {
         xVel = 1;
         yVel = 0;
-        if(curImgBlue < 16)
-        	curImgBlue += 1;
-        if(curImgBlue == 16) 
-        	curImgBlue = 0;
-        carDirB(curImgBlue);
+        if(curImgGreen < 16)
+        	curImgGreen += 1;
+        if(curImgGreen == 16) 
+        	curImgGreen = 0;
+        carDirB(curImgGreen);
     }
     if (z == KeyEvent.VK_DOWN) {
         xVel = 0;
         yVel = 1;
-        carDirB(curImgBlue);
+        carDirB(curImgGreen);
         deceleration();
     }
 
-    // Silver Car
+    // Yellow Car
     if (z == KeyEvent.VK_A) {
         x1Vel = -1;
         y1Vel = 0;
-        if(curImgSil > 0)
-        	curImgSil -= 1;
-        if(curImgSil == 0)
-        	curImgSil = 15;
-        carDirS(curImgSil);
+        if(curImgYel > 0)
+        	curImgYel -= 1;
+        if(curImgYel == 0)
+        	curImgYel = 15;
+        carDirS(curImgYel);
     }
     if (z == KeyEvent.VK_W) {
         x1Vel = 0;
         y1Vel = -1;
-        carDirS(curImgSil);
+        carDirS(curImgYel);
         acceleration();
     }
     if (z == KeyEvent.VK_D) {
         x1Vel = 1;
-        if(curImgSil < 16)
-        	curImgSil += 1;
-        if(curImgSil == 16) 
-        	curImgSil = 0;
-        carDirS(curImgSil);
+        if(curImgYel < 16)
+        	curImgYel += 1;
+        if(curImgYel == 16) 
+        	curImgYel = 0;
+        carDirS(curImgYel);
     }
     if (z == KeyEvent.VK_S) {
         x1Vel = 0;
         y1Vel = 1;
-        carDirS(curImgSil);
+        carDirS(curImgYel);
         deceleration();
     }
 }
@@ -357,7 +368,7 @@ public void keyReleased(KeyEvent e) {
 	y1Vel = 0;
 }
 
-//car direction of light blue car
+//car direction of Green car
 public void carDirB(int carD) {
     switch (carD) {
         case 0:
@@ -427,7 +438,7 @@ public void carDirB(int carD) {
     }
 }
 
-//car direction for silver car
+//car direction for yellow car
 public void carDirS(int carD) {
     switch (carD) {
         case 0:
@@ -510,4 +521,25 @@ public void carDirS(int carD) {
 		
 	}
 
+	public void connect2server() throws IOException {
+		 
+        String serverAddress = JOptionPane.showInputDialog(
+        		f,
+                "Enter IP Address of the Server: ",
+                "Welcome to the Server",
+                JOptionPane.QUESTION_MESSAGE);
+        try {
+            Socket s = new Socket(serverAddress, 1234);
+
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new PrintWriter(s.getOutputStream(), true);
+            
+            for (int i = 0; i < 3; i++) {
+                System.out.println(in.readLine());
+            }
+        } catch (Exception e) {
+            System.out.println("Unable to connect to game server: " + e);
+            System.exit(0);
+        }
+	}
 }// end public class
